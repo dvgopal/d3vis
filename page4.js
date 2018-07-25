@@ -263,7 +263,7 @@ function sortData(data,key){
     
 function dsBarChartBasics() {
     
-            var margin = {top: 80, right: 10, bottom: 200, left: 50},
+            var margin = {top: 80, right: 10, bottom: 20, left: 50},
             width = 400 - margin.left - margin.right,
            height = 500 - margin.top - margin.bottom,
             barPadding = 5
@@ -408,14 +408,15 @@ function updateBarChartForPrevalnce(data,chosen) {
         .style("text-anchor", "middle")
      
     // Title
-    plot.append("text")
+    d3.select("#chart")
+    .select("svg")
+    .append("g")
+    .append("text")
         .attr("x", (width + margin.left + margin.right)/2)
-        .attr("y", 0)
+        .attr("y", 500)
         .attr("class","title")				
         .attr("text-anchor", "middle")
-        .text(function(d){
-            return "Prevalence for State:" + chosen.State;
-        });
+        .text(function(d){ return "Prevalence Rate in State:"+chosen.State;});
 }
 
 // 
@@ -550,13 +551,15 @@ function updateBarChartForYouth(data,chosen) {
         .style("text-anchor", "middle")
          
         // Title
-        plot.append("text")
+        d3.select("#youth")
+        .select("svg")
+        .append("g")
+        .append("text")
             .attr("x", (width + margin.left + margin.right)/2)
-            .attr("y", 15)
+            .attr("y", 500)
             .attr("class","title")				
             .attr("text-anchor", "middle")
-            .text(function(d){ return "Young Adults - Watchout for State:"+chosen.State;});
-
+            .text(function(d){ return "Watchout for Youth in State:"+chosen.State;});
 
 }
 
@@ -689,9 +692,12 @@ function updateBarChartForGender(data,chosen) {
         .style("text-anchor", "middle")
          
         // Title
-        plot.append("text")
+        d3.select("#gender")
+        .select("svg")
+        .append("g")
+        .append("text")
             .attr("x", (width + margin.left + margin.right)/2)
-            .attr("y", 15)
+            .attr("y", 500)
             .attr("class","title")				
             .attr("text-anchor", "middle")
             .text(function(d){ return "Men -beAWARE in State:"+chosen.State;});
