@@ -1,3 +1,8 @@
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
 .container {
   float: left;
   border: 5px solid red;
@@ -60,13 +65,13 @@ table {
 	font-family: Verdana;	
 	/* color: #5C5558; */
 	font-size: 12px;
-    text-align: right;	
+    text-align: left;	
     
    
 }
 
 td {
-	padding-left: 10px;		
+	/* padding-left: 10px;		 */
 }
 
 div.tooltip {	
@@ -123,7 +128,7 @@ body {
     font-family: 'Oxygen', sans-serif;
    
   }
-  .bullelements{
+.bullelements{
     font-size:2rem;
     color:yellow;
   }

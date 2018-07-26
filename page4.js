@@ -1,8 +1,8 @@
 // (function (global) {
     // var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
     // height = Math.max(document.documentElement.clientHeight, window.innerHeight ||0); 
-var	margin = {top: 50, right: 10, bottom: 5, left: 50},
-	width = 700 - margin.left - margin.right,
+var	margin = {top: 50, right: 20, bottom: 5, left: 5},
+	width = 600 - margin.left - margin.right,
     height = 700 - margin.top - margin.bottom;
     // Define the div for the tooltip
     var div = d3.select("body").append("div")	
@@ -45,7 +45,7 @@ var defaultstate= {State: "U.S", Latitude: 32.806671, Longitude: -86.79113, Prev
 function drawMap(us, data){
  
     var projection = d3.geoAlbersUsa()
-        .scale(900)
+        .scale(700)
         .translate([width/2, height/3]);
  
     var path = d3.geoPath().projection(projection);
@@ -267,8 +267,8 @@ function sortData(data,key){
     
 function dsBarChartBasics() {
     
-            var margin = {top: 80, right: 10, bottom: 20, left: 50},
-            width = 420 - margin.left - margin.right,
+            var margin = {top: 90, right: 10, bottom: 20, left: 50},
+            width = 200 - margin.left - margin.right,
            height = 300 - margin.top - margin.bottom,
             barPadding = 5;
             
