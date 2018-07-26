@@ -233,12 +233,8 @@ var datasetBarChart = [
 
 ];
 
-var color = d3.scaleThreshold()
-                .domain([2293, 4462, 6631, 8800, 10969, 13138])
-                .range(["#034e7b", "#0570b0", "#74a9cf", "#fb6a4a", "#de2d26", "#b2182b"]);
 
-
-    function datasetBarChosen(data) {
+function datasetBarChosen(data) {
         var ds = [];
         for (x in datasetBarChart) {
              if(datasetBarChart[x].state==group){
@@ -246,7 +242,7 @@ var color = d3.scaleThreshold()
              } 
             }
         return ds;
-    }
+}
     
     
     function dsBarChartBasics() {
@@ -268,6 +264,11 @@ var color = d3.scaleThreshold()
     
     function dsBarChart(data) {
     
+        var color = d3.scaleThreshold()
+        .domain([124, 1000, 2000, 4000, 7000])
+        .range(["#034e7b", "#0570b0", "#74a9cf", "#fb6a4a", "#de2d26", "#b2182b"]);
+ 
+
         data.forEach(function(d) {
             d.Total = +d.Total;
             d.Prevalence = +d.Prevalence
