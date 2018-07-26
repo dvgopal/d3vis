@@ -156,25 +156,33 @@ function drawMap(us, data){
 var legendText = ["Fatalities:124-2293", "Fatalities:2294-4462", "Fatalities:4463-6631","Fatalities:6632-8800",
 "Fatalities:8801-10969","Fatalities:10970-13138"];
 var prevalance = [1.5,2.0,2.5,3.0,3.4];
-var legend = d3.select("#legend").append("svg")
+var svglegend = d3.select("#legend").append("svg")
         .attr("class", "legend")
         .attr("width", 200)
         .attr("height", 300)
-        .selectAll("g")
-        .data(color.domain().slice())
+var legend=        svglegend.selectAll(".legend")
+        .data(color.domain())
         .enter()
         .append("g")
-        .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+        .classed("legend",true)
+        .attr("transform", function(d, i) { 
+            return "translate(0," + i * 20 + ")"; 
+        })
+        
  
         legend.append("rect")
-        .attr("width", 18)
+        .attr("x",5)
+        .attr("width", 28)
         .attr("height", 18)
         .style("fill", color);
        
+        legend.on("click", function(d){
+            updateMap(d,data,us);
+        })
  
         legend.append("text")
         .data(legendText)
-        .attr("x", 24)
+        .attr("x",36)
         .attr("y", 9)
         .attr("dy", ".1em")
         .style("font-family", "verdana")
@@ -213,7 +221,7 @@ var legend = d3.select("#legend").append("svg")
 /*
 ############# BAR CHART ###################
 -------------------------------------------
-*/
+
 
 var 	formatAsPercentage = d3.format("%"),
 		formatAsInteger = d3.format(",");
@@ -394,5 +402,8 @@ var color = d3.scaleThreshold()
             ;
     }
     
-    
-  
+   */ 
+  function  updateMap(d,data,us)
+  {
+      console.log(d);
+  }

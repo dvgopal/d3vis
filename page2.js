@@ -1,7 +1,7 @@
 // (function (global) {
     // var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
     // height = Math.max(document.documentElement.clientHeight, window.innerHeight ||0); 
-var	margin = {top: 10, right: 10, bottom: 10, left: 50},
+var	margin = {top: 10, right: 10, bottom: 10, left: 10},
 	width = 700 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
     // Define the div for the tooltip
@@ -121,35 +121,35 @@ function drawMap(us, data){
                 .style('visibility', "hidden");
         });
         
-        svg.append("g").selectAll("circle")
-            .data(data) 
-            .enter()
-            .append("circle") 
-            .attr("cx", function(d){
-                 return projection([d.Longitude, d.Latitude])[0];
-                })
-            .attr("cy",  function(d){
-                return projection([d.Longitude, d.Latitude])[1];
-                })
-            .attr("r", function(d){
-                return Math.sqrt(d.Prevalence) * 5;
-                } 
-              )
-            .style("fill", "#FDCC08")
-            .style("opacity", 1)
-            .on("mouseover", function(d) {		
-            // div.transition()
-            //     .duration(100)		
-            //     .style("opacity", 1);		
-            // div	.html(d.State  +  "<br/>Total Deaths:" + d.Total + "<br/>Prevalance:" + d.Prevalence )	
-            //     .style("left", (d3.event.pageX) + "px")		
-            //     .style("top", (d3.event.pageY - 28) + "px");	
-            })					
-        .on("mouseout", function(d) {		
-            div.transition()		
-                .duration(500)		
-                .style("opacity", 0);	
-        });
+        // svg.append("g").selectAll("circle")
+        //     .data(data) 
+        //     .enter()
+        //     .append("circle") 
+        //     .attr("cx", function(d){
+        //          return projection([d.Longitude, d.Latitude])[0];
+        //         })
+        //     .attr("cy",  function(d){
+        //         return projection([d.Longitude, d.Latitude])[1];
+        //         })
+        //     .attr("r", function(d){
+        //         return Math.sqrt(d.Prevalence) * 5;
+        //         } 
+        //       )
+        //     .style("fill", "#FDCC08")
+        //     .style("opacity", 1)
+        //     .on("mouseover", function(d) {		
+        //     // div.transition()
+        //     //     .duration(100)		
+        //     //     .style("opacity", 1);		
+        //     // div	.html(d.State  +  "<br/>Total Deaths:" + d.Total + "<br/>Prevalance:" + d.Prevalence )	
+        //     //     .style("left", (d3.event.pageX) + "px")		
+        //     //     .style("top", (d3.event.pageY - 28) + "px");	
+        //     })					
+        // .on("mouseout", function(d) {		
+        //     div.transition()		
+        //         .duration(500)		
+        //         .style("opacity", 0);	
+        // });
 
    //////////// add legend
    

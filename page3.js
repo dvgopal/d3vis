@@ -40,7 +40,9 @@ d3.queue()
             drawMap(us, data);
         }
     });
- 
+
+var defaultstate= {State: "U.S.A", Latitude: 32.806671, Longitude: -86.79113, Prevalence: 1.9, Total:119100, AllAges:3.3, Females:1.5, Males:5.2, ThrityFivePlus:3.1, TwentyOneToThirtyFour:6.7, ZeroToTwenty:1.3};
+
 function drawMap(us, data){
  
     var projection = d3.geoAlbersUsa()
@@ -85,7 +87,8 @@ function drawMap(us, data){
         })
         .attr("d", path)
         .style("fill", function (d) {
-            return d.details && d.details.Total ? color(d.details.Total) : undefined;
+            // return d.details && d.details.Total ? color(d.details.Total) : undefined;
+            return "gray";
             })                             
         .on('mouseover', function (d) {
             d3.select(this)
@@ -222,19 +225,19 @@ var 	formatAsPercentage = d3.format("%"),
 		formatAsInteger = d3.format(",");
 
 
-var datasetBarChart = [
-    {state:"Texas",	latitude:  31.054487,	longitude: -97.563461,	prevalance: 2.1,	Total: 13138	},
-    {state:"California",	latitude:36.116203,	longitude:-119.681564,	prevalance:1.8,	Total:10327	},
-    {state:"Florida",	latitude:27.766279,	longitude:-81.686783,	prevalance:2.1,	Total:8476	},
-    {state:"Pennsylvania",	latitude:40.590752,	longitude:-77.209755,	prevalance:1.8,	Total:4663	},
-    {state:"North Carolina",	latitude:35.630066,	longitude:-79.806419,	prevalance:1.4,	Total:4102	},
-    {state:"South Carolina",	latitude:33.856892,	longitude:-80.945007,	prevalance:1.6,	Total:3870	},
-    {state:"Illinois",	latitude:40.349457,	longitude:-88.986137,	prevalance:2.2,	Total:3866	},
-    {state:"New York",	latitude:42.165726,	longitude:-74.948051,	prevalance:1.4,	Total:3752	},
-    {state:"Georgia",	latitude:33.040619,	longitude:-83.643074,	prevalance:1.4,	Total:3699	},
-    {state:"Ohio",	latitude:40.388783,	longitude:-82.764915,	prevalance:2.2,	Total:3637	}   				
+// var datasetBarChart = [
+//     {state:"Texas",	latitude:  31.054487,	longitude: -97.563461,	prevalance: 2.1,	Total: 13138	},
+//     {state:"California",	latitude:36.116203,	longitude:-119.681564,	prevalance:1.8,	Total:10327	},
+//     {state:"Florida",	latitude:27.766279,	longitude:-81.686783,	prevalance:2.1,	Total:8476	},
+//     {state:"Pennsylvania",	latitude:40.590752,	longitude:-77.209755,	prevalance:1.8,	Total:4663	},
+//     {state:"North Carolina",	latitude:35.630066,	longitude:-79.806419,	prevalance:1.4,	Total:4102	},
+//     {state:"South Carolina",	latitude:33.856892,	longitude:-80.945007,	prevalance:1.6,	Total:3870	},
+//     {state:"Illinois",	latitude:40.349457,	longitude:-88.986137,	prevalance:2.2,	Total:3866	},
+//     {state:"New York",	latitude:42.165726,	longitude:-74.948051,	prevalance:1.4,	Total:3752	},
+//     {state:"Georgia",	latitude:33.040619,	longitude:-83.643074,	prevalance:1.4,	Total:3699	},
+//     {state:"Ohio",	latitude:40.388783,	longitude:-82.764915,	prevalance:2.2,	Total:3637	}   				
 
-];
+// ];
 
 var color = d3.scaleThreshold()
                 .domain([2293, 4462, 6631, 8800, 10969, 13138])
@@ -333,8 +336,8 @@ var color = d3.scaleThreshold()
             .data(firstDatasetBarChart)
             .enter()
             .append('rect')
-            // .transition().duration(3000)
-            // .delay( function(d,i) { return i * 100; })
+            .transition().duration(3000)
+            .delay( function(d,i) { return i * 100; })
             .attr("x", function(d,i) { return xScale(d.State) + xScale.bandwidth()/5;})
             .attr("width", width/firstDatasetBarChart.length - barPadding)
             .attr("y",function(d){ return yScale(d.Prevalence);})

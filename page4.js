@@ -1,9 +1,9 @@
 // (function (global) {
     // var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
     // height = Math.max(document.documentElement.clientHeight, window.innerHeight ||0); 
-var	margin = {top: 0, right: 10, bottom: 5, left: 50},
-	width = 600 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+var	margin = {top: 50, right: 10, bottom: 5, left: 50},
+	width = 700 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
     // Define the div for the tooltip
     var div = d3.select("body").append("div")	
     .attr("class", "tooltip")				
@@ -40,13 +40,12 @@ d3.queue()
             drawMap(us, data);
         }
     });
-var defaultstate= {State: "Nebraska", Latitude: "41.12537", Longitude: "-98.268082", Prevalence:3.4, Total:682, " Age: 35+":"3.5"," All Ages":"4"," Males":"6.4","Age : 21-34":"6.5","Age: 0-20":"", Females
-:"",Latitude:"41.12537",Longitude:"-98.268082",Prevalence:3.4,State:"Nebraska",Total:682}
+var defaultstate= {State: "U.S", Latitude: 32.806671, Longitude: -86.79113, Prevalence: 1.9, Total:119100, AllAges:3.3, Females:1.5, Males:5.2, ThrityFivePlus:3.1, TwentyOneToThirtyFour:6.7, ZeroToTwenty:1.3};
 
 function drawMap(us, data){
  
     var projection = d3.geoAlbersUsa()
-        .scale(600)
+        .scale(900)
         .translate([width/2, height/3]);
  
     var path = d3.geoPath().projection(projection);
@@ -128,6 +127,7 @@ function drawMap(us, data){
             updateBarChartForPrevalnce(data,d);
             updateBarChartForYouth(data,d);
             updateBarChartForGender(data,d);
+            updateBarChartForFatalities(data,d);
         })
         
         svg.append("g").selectAll("circle")
@@ -220,6 +220,7 @@ function drawMap(us, data){
    updateBarChartForPrevalnce(data,defaultstate);
    updateBarChartForYouth(data,defaultstate);
    updateBarChartForGender(data,defaultstate);
+   updateBarChartForFatalities(data,defaultstate);
 }
 /*
 ############# BAR CHART ###################
@@ -251,6 +252,9 @@ function stateChosen(data,chosen) {
             chosen = d;
         }
     });
+    if(chosen.State=="U.S.A"){
+        return defaultstate;
+    }
     return chosen;
 }
 
@@ -264,10 +268,9 @@ function sortData(data,key){
 function dsBarChartBasics() {
     
             var margin = {top: 80, right: 10, bottom: 20, left: 50},
-            width = 400 - margin.left - margin.right,
-           height = 500 - margin.top - margin.bottom,
-            barPadding = 5
-            ;
+            width = 420 - margin.left - margin.right,
+           height = 300 - margin.top - margin.bottom,
+            barPadding = 5;
             
             return {
                 margin : margin, 
@@ -502,7 +505,7 @@ function updateBarChartForYouth(data,chosen) {
         .attr("height",function(d){
              return height-yScale(d.value);
         })
-        .attr("fill",function(d){ return color(d.value);});
+        .attr("fill","#7fbf7b");
       
 
         plot.selectAll('text')
@@ -572,7 +575,7 @@ function updateBarChartForGender(data,chosen) {
         
     d3.select("#gender").select("svg").remove();
 
-
+    var barcolor=["#80b1d3","#e78ac3"];
     data.sort(function(a,b){
         return b.Total - a.Total;
     });
@@ -643,7 +646,7 @@ function updateBarChartForGender(data,chosen) {
         .attr("height",function(d){
              return height-yScale(d.value);
         })
-        .attr("fill",function(d){ return color(d.value);});
+        .attr("fill",function(d,i){ return barcolor[i];});
       
 
         plot.selectAll('text')
@@ -702,5 +705,150 @@ function updateBarChartForGender(data,chosen) {
             .attr("text-anchor", "middle")
             .text(function(d){ return "Men -beAWARE in State:"+chosen.State;});
 
+
+    }
+
+    // 
+// 
+// Update Chart for Total Fatalities
+// 
+// 
+function updateBarChartForFatalities(data,chosen) {
+        
+    d3.select("#fatalities").select("svg").remove();
+    
+    sortData(data,"Total");
+    chosen = stateChosen(data,chosen)
+    
+
+    var firstDatasetBarChart=[];
+    firstDatasetBarChart.push(chosen);
+    // var firstDatasetBarChart = data.slice(0,11);
+
+    var basics = dsBarChartBasics();
+    
+    var margin = basics.margin,
+        width = basics.width+60,
+       height = basics.height,
+        colorBar = basics.colorBar,
+        barPadding = basics.barPadding;
+                    
+    
+    var xScale = d3.scaleBand()                           
+                        //.domain([0,firstDatasetBarChart.length])
+                        .rangeRound([0, width]); 
+
+    // Create linear y scale 
+    // Purpose: No matter what the data is, the bar should fit into the svg area; bars should not
+    // get higher than the svg height. Hence incoming data needs to be scaled to fit into the svg area.  
+    var yScale = d3.scaleLinear()
+            // use the max funtion to derive end point of the domain (max value of the dataset)
+            // do not use the min value of the dataset as min of the domain as otherwise you will not see the first bar
+           //.domain([0, d3.max(firstDatasetBarChart, function(d) { return d.Total; })])
+           // As coordinates are always defined from the top left corner, the y position of the bar
+           // is the svg height minus the data value. So you basically draw the bar starting from the top. 
+           // To have the y position calculated by the range function
+           .range([height, 0]);
+
+    var xAxis = d3.axisBottom()
+                    .scale(xScale);
+                    
+    
+    var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5)
+                    .tickFormat(function(tickVal) {
+                        return tickVal >= 1000 ? tickVal/1000 + "K" : tickVal;});
+                    
+    
+    //Create SVG element
+    
+    var svg = d3.select("#fatalities")
+            .append("svg")
+                .attr("width", width )
+                .attr("height", height + margin.top + margin.bottom);
+    
+    var plot = svg.append("g")
+                    .attr("transform","translate(" + margin.left + "," + margin.right + ")");
+    
+    xScale.domain(firstDatasetBarChart.map(function(d){ return d.State}));
+    yScale.domain([0,d3.max(firstDatasetBarChart,function(d) { return d.Total;})]);
+
+    plot.selectAll('rect')
+        .data(firstDatasetBarChart)
+        .enter()
+        .append('rect')
+        // .transition().duration(3000)
+        // .delay( function(d,i) { return i * 100; })
+        .attr("x", function(d,i) {
+             return xScale(d.State) + xScale.bandwidth()/2 -15;
+        })
+        .attr("width", function(d){
+            return 50;
+        })
+        .attr("y",function(d){ 
+            return yScale(d.Total);
+        })
+        .attr("height",function(d){
+             return height-yScale(d.Total);
+        })
+        .attr("fill","#fb8072");
+      
+
+        plot.selectAll('text')
+            .data(firstDatasetBarChart)
+            .enter()
+            .append('text')   
+            .text(function(d){
+                return d.Total;
+            })
+            .attr("x", function(d,i) { return 15+ xScale.bandwidth()/2;})
+            .attr("y",function(d){ return yScale(d.Total)+25;})
+            .attr("text-anchor","middle")
+            .attr("font-size", "11px")
+            .attr("font-weight","bold");
+            // .attr({
+            //     "x": function(d){ return xScale(d.State) +  xScale.bandwithd()/2; },
+            //     "y": function(d){ return yScale(d.Total)+ 12; },
+            //     "font-family": 'sans-serif',
+            //     "font-size": '13px',
+            //     "font-weight": 'bold',
+            //     "fill": 'white',
+            //     "text-anchor": 'middle'
+            // });
+
+    // Draw xAxis and position the label
+    plot.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis)
+        .selectAll("text")
+        .attr("dx", "-.9em")
+        .attr("dy", ".25em")
+        .attr("transform", "rotate(-60)" )
+        .style("text-anchor", "end")
+        .attr("font-size", "10px");
+
+
+   // Draw yAxis and postion the label
+    plot.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height/2)
+        .attr("dy", "0em")
+        .style("text-anchor", "middle")
+     
+    // // Title
+    // d3.select("#chart")
+    // .select("svg")
+    // .append("g")
+    // .append("text")
+    //     .attr("x", (width + margin.left + margin.right)/2)
+    //     .attr("y", 500)
+    //     .attr("class","title")				
+    //     .attr("text-anchor", "middle")
+    //     .text(function(d){ return "Prevalence Rate in State:"+chosen.State;});
 
     }
