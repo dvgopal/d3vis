@@ -1,4 +1,10 @@
 
+
+text {
+	font-family: Helvetica, Arial, sans-serif;
+	font-weight:lighter;
+	font-size: 20px;
+}
 .navbar {
     background-color:#66acf1;
 }
@@ -90,10 +96,11 @@ div.tooltip {
     height: 50px;					
     padding: 2px;				
     font: 12px verdana;		
-    background: white;	
+    background: black;	
     border: 0px;		
     border-radius: 8px;			
-    pointer-events: none;			
+    pointer-events: none;
+    color:white;			
 }
 
 .axis path,

@@ -4,6 +4,7 @@
 var	margin = {top: 10, right: 10, bottom: 10, left: 50},
 	width = 700 - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
+    scale0 = (width - 1) / 2 / Math.PI;
     // Define the div for the tooltip
     var div = d3.select("body").append("div")	
     .attr("class", "tooltip")				
@@ -15,17 +16,7 @@ var svg = d3.select("#details")
     .attr("height", height + margin.top + margin.bottom)
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-// svg.attr("viewBox", "0 0 " + width + " " + height )
-//     .attr("preserveAspectRatio", "xMinYMin");
-// var zoom = d3.zoom()
-//     .on("zoom", function () {
-//         var transform = d3.zoomTransform(this);
-//         map.attr("transform", "transform(" +
-//                 d3.event.scale + ")");
-//     });
- 
-//svg.call(zoom);
- 
+
 var map = svg.append("g")
     .attr("class", "map");
  
@@ -70,7 +61,13 @@ function drawMap(us, data){
         d.details = totalById[d.properties.name] ? totalById[d.properties.name] : {};
     });
  
-  
+    // var zoom = d3.zoom()
+    // .scaleExtent([1, 8])
+    // .on("zoom", zoomed);
+ 
+// svg.call(zoom);
+//     // .call(zoom.event);
+ 
  
     map.append("g")
         .selectAll("path")
@@ -151,6 +148,49 @@ function drawMap(us, data){
                 .style("opacity", 0);	
         });
 
+
+    var annotation = svg.append("g")
+                        .append("rect")
+                        .attr("x",400)
+                        .attr("y",450)
+                        .attr("width",200)
+                        .attr("height",100)
+                        .attr("fill","pink")
+                        .attr("opacity",.5);
+
+
+        svg.append("text")
+                    .text("Hello")
+                    .attr("x", 450)
+                    .attr("y",470)
+                    .attr("text-anchor","middle")
+                    .attr("font-size", "24px")
+                    .attr("font-weight","bold");
+
+    var annotation2 = svg.append("g")
+                        .append("rect")
+                        .attr("x",100)
+                        .attr("y",450)
+                        .attr("width",200)
+                        .attr("height",100)
+                        .attr("fill","steelblue")
+                        .attr("opacity",0.2);
+
+             svg.append("text")
+                        .text("Hello")
+                        .attr("x", 150)
+                        .attr("y",470)
+                        .attr("text-anchor","middle")
+                        .attr("font-size", "24px")
+                        .attr("font-weight","bold");
+
+                        //.style("font-size","px")
+                        //.text("Hello");
+        // function zoomed() {
+        //    map.style("stroke-width", 1.5 / d3.event.transform.k + "px");
+        //         // g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")"); // not in d3 v4
+        //     map.attr("transform", d3.event.transform); // updated for d3 v4
+        //   }
    //////////// add legend
    
 var legendText = ["Fatalities:124-2293", "Fatalities:2294-4462", "Fatalities:4463-6631","Fatalities:6632-8800",

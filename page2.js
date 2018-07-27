@@ -151,6 +151,23 @@ function drawMap(us, data){
         //         .style("opacity", 0);	
         // });
 
+        var annotation = svg.append("g")
+        .append("rect")
+        .attr("x",400)
+        .attr("y",450)
+        .attr("width",200)
+        .attr("height",100)
+        .attr("fill","pink")
+        .attr("opacity",.5);
+
+
+        svg.append("text")
+            .text("Hello")
+            .attr("x", 450)
+            .attr("y",470)
+            .attr("text-anchor","middle")
+            .attr("font-size", "24px")
+            .attr("font-weight","bold");
    //////////// add legend
    
 var legendText = ["Fatalities:124-2293", "Fatalities:2294-4462", "Fatalities:4463-6631","Fatalities:6632-8800",

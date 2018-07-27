@@ -160,6 +160,24 @@ function drawMap(us, data){
                 .style("opacity", 0);	
         });
 
+
+        svg.append("g")
+        .append("rect")
+        .attr("x",400)
+        .attr("y",450)
+        .attr("width",200)
+        .attr("height",100)
+        .attr("fill","pink")
+        .attr("opacity",.5);
+
+
+    svg.append("text")
+        .text("Hello")
+        .attr("x", 450)
+        .attr("y",470)
+        .attr("text-anchor","middle")
+        .attr("font-size", "24px")
+        .attr("font-weight","bold");
    //////////// add legend
    
     var legendText = ["Fatalities:124-2293", "Fatalities:2294-4462", "Fatalities:4463-6631","Fatalities:6632-8800",
@@ -268,7 +286,7 @@ function sortData(data,key){
 function dsBarChartBasics() {
     
             var margin = {top: 90, right: 10, bottom: 20, left: 50},
-            width = 200 - margin.left - margin.right,
+            width = 250 - margin.left - margin.right,
            height = 300 - margin.top - margin.bottom,
             barPadding = 5;
             
@@ -486,6 +504,7 @@ function updateBarChartForYouth(data,chosen) {
         .data(firstDatasetBarChart)
         .enter()
         .append('rect')
+        .attr("id",function(d,i){ return i;})
         // .transition().duration(3000)
         // .delay( function(d,i) { return i * 100; })
         .attr("x", function(d,i) {
@@ -493,7 +512,7 @@ function updateBarChartForYouth(data,chosen) {
         })
         .attr("width", function(d){
             if(d != 0){
-                return 50- barPadding;    
+                return 40- barPadding;    
             } else {
                 return 20;
             }
@@ -505,7 +524,15 @@ function updateBarChartForYouth(data,chosen) {
         .attr("height",function(d){
              return height-yScale(d.value);
         })
-        .attr("fill","#7fbf7b");
+        .attr("fill","#7fbf7b")
+        .attr("stroke", function(d,i){
+            if((chosen.State == "U.S") && i == 1 ){
+                return "red";
+            } else {
+                return "";
+            }
+        })
+        .attr("stroke-width",3);
       
 
         plot.selectAll('text')
@@ -552,17 +579,13 @@ function updateBarChartForYouth(data,chosen) {
         .attr("x", -height/2)
         .attr("dy", "-5em")
         .style("text-anchor", "middle")
-         
-        // Title
-        d3.select("#youth")
-        .select("svg")
-        .append("g")
-        .append("text")
-            .attr("x", (width + margin.left + margin.right)/2)
-            .attr("y", 500)
-            .attr("class","title")				
-            .attr("text-anchor", "middle")
-            .text(function(d){ return "Watchout for Youth in State:"+chosen.State;});
+    
+        if( chosen.State == "U.S") {
+           // plot.select("#1")
+                
+        }
+
+      
 
 }
 
@@ -646,7 +669,15 @@ function updateBarChartForGender(data,chosen) {
         .attr("height",function(d){
              return height-yScale(d.value);
         })
-        .attr("fill",function(d,i){ return barcolor[i];});
+        .attr("fill",function(d,i){ return barcolor[i];})
+        .attr("stroke", function(d,i){
+            if((chosen.State == "U.S") && i == 0 ){
+                return "red";
+            } else {
+                return "";
+            }
+        })
+        .attr("stroke-width",3);
       
 
         plot.selectAll('text')
