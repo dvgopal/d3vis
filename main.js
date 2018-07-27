@@ -116,6 +116,9 @@ function drawMap(us, data){
  
             d3.select(".details")
                 .style('visibility', "hidden");
+            div.transition()
+                .duration(100)
+                .style("opacity",0);
         });
         
         svg.append("g").selectAll("circle")
