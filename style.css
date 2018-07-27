@@ -1,3 +1,12 @@
+
+.navbar {
+    background-color:#66acf1;
+}
+
+ .navbar-nav li {
+    color:rgba(19, 3, 3, 0.945);
+    font-weight: bold;
+}
 .navbar-nav.navbar-center {
     position: absolute;
     left: 50%;
