@@ -73,18 +73,31 @@ text {
     fill: black;
 }
 
-  
-table {
-	/* border-collapse:collapse; */
-	/* border: 0px;	 */
-	font-family: Verdana;	
-	/* color: #5C5558; */
-	font-size: 12px;
-    text-align: left;	
+@media (min-width: 1200px) {
+    table {
+        /* border-collapse:collapse; */
+        /* border: 0px;	 */
+        font-family: Verdana;	
+        /* color: #5C5558; */
+        font-size: 12px;
+        text-align: left;	
+        
     
-   
+    }
 }
-
+@media (min-width: 900px) {
+    table {
+        border-collapse:collapse;
+        border: 0px;	
+        font-family: Verdana;	
+        width: 100%;
+        /* color: #5C5558; */
+        font-size: 12px;
+        text-align: left;	
+        
+    
+    }
+}
 td {
 	/* padding-left: 10px;		 */
 }

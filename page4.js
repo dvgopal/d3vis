@@ -544,9 +544,13 @@ function updateBarChartForYouth(data,chosen) {
             .enter()
             .append('text')   
             .text(function(d){
-                return d.value;
+                if(d.value != 0){
+                    return d.value;
+                } else {
+                    return "";
+                }
             })
-            .attr("x", function(d,i) { return xScale(d.age) + xScale.bandwidth()/2;})
+            .attr("x", function(d,i) { return 6+ xScale(d.age) + xScale.bandwidth()/2;})
             .attr("y",function(d){ return yScale(d.value)+20;})
             .attr("text-anchor","middle")
             .attr("font-size", "11px")
@@ -837,7 +841,7 @@ function updateBarChartForFatalities(data,chosen) {
             .text(function(d){
                 return d.Total;
             })
-            .attr("x", function(d,i) { return 15+ xScale.bandwidth()/2;})
+            .attr("x", function(d,i) { return 10+ xScale.bandwidth()/2;})
             .attr("y",function(d){ return yScale(d.Total)+25;})
             .attr("text-anchor","middle")
             .attr("font-size", "11px")
